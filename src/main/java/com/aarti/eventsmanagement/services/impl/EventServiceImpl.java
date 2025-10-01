@@ -2,11 +2,8 @@ package com.aarti.eventsmanagement.services.impl;
 
 import com.aarti.eventsmanagement.dtos.PaginationDTO;
 import com.aarti.eventsmanagement.dtos.requests.CreateEventRequest;
-import com.aarti.eventsmanagement.dtos.response.CreateEventResponse;
-import com.aarti.eventsmanagement.dtos.response.EventDetailsResponse;
-import com.aarti.eventsmanagement.dtos.response.EventSummaryDTO;
-import com.aarti.eventsmanagement.dtos.response.GetEventResponse;
-import com.aarti.eventsmanagement.exceptions.DuplicateEventNameException;
+import com.aarti.eventsmanagement.dtos.requests.CreateInviteeRequest;
+import com.aarti.eventsmanagement.dtos.response.*;
 import com.aarti.eventsmanagement.repositories.EventRepository;
 import com.aarti.eventsmanagement.services.EventService;
 import lombok.RequiredArgsConstructor;
@@ -84,6 +81,15 @@ public class EventServiceImpl implements EventService {
     @Override
     public void updateByEventById(String id, CreateEventRequest request) {
       repository.updateByEventId(id,request);
+    }
+
+    @Override
+    public int createInvitee(CreateInviteeRequest createInviteeRequest, String eventId) {
+
+        int eventInviteeId=repository.createEventInvitee(createInviteeRequest,eventId);
+        //CreateInviteeResponse createInviteeResponse=
+return(eventInviteeId);
+
     }
 
 

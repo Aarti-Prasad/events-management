@@ -3,12 +3,14 @@ package com.aarti.eventsmanagement.repositories;
 import com.aarti.eventsmanagement.dtos.EventDayDTO;
 import com.aarti.eventsmanagement.dtos.OrganizerDTO;
 import com.aarti.eventsmanagement.dtos.requests.CreateEventRequest;
+import com.aarti.eventsmanagement.dtos.requests.CreateInviteeRequest;
 import com.aarti.eventsmanagement.dtos.response.EventDetailsResponse;
 import com.aarti.eventsmanagement.dtos.response.EventSummaryDTO;
 import lombok.RequiredArgsConstructor;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -17,7 +19,6 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 
@@ -218,5 +219,35 @@ String sql= """
                """;
 log.info(sql);
        jdbcTemplate.update(sql,request.getName(),request.getVenue(),request.getEventMode(),"ADMIN",id);
+    }
+
+    public int createEventInvitee(CreateInviteeRequest createInviteeRequest, String eventId) {
+
+        String sql = """
+               Insert into event_invitee_tbl (event_id,name,email,phone,crt_dt,crt_post)values (?,?,?,?,NOW(),?)
+               """;
+
+
+        KeyHolder keyHolder=new GeneratedKeyHolder();
+        jdbcTemplate.update(connection ->{
+            PreparedStatement ps=connection.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(1,eventId);
+            ps.setString(2,createInviteeRequest.getInviteeName());
+            ps.setString(3, createInviteeRequest.getInviteeEmail());
+            ps.setString(4, createInviteeRequest.getContactNum());
+ps.setString(5,"Admin");
+
+            return ps;
+        },keyHolder);
+
+        Number n= keyHolder.getKey();
+        if(n==null)
+        {
+            throw new DataAccessException("Failed to retrieve") {
+            };
+
+
+        }
+        return n.intValue();
     }
 }

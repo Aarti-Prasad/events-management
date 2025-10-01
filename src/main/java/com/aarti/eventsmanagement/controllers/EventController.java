@@ -1,7 +1,9 @@
 package com.aarti.eventsmanagement.controllers;
 
 import com.aarti.eventsmanagement.dtos.requests.CreateEventRequest;
+import com.aarti.eventsmanagement.dtos.requests.CreateInviteeRequest;
 import com.aarti.eventsmanagement.dtos.response.CreateEventResponse;
+import com.aarti.eventsmanagement.dtos.response.CreateInviteeResponse;
 import com.aarti.eventsmanagement.dtos.response.EventDetailsResponse;
 import com.aarti.eventsmanagement.dtos.response.GetEventResponse;
 import com.aarti.eventsmanagement.services.EventService;
@@ -9,6 +11,8 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -78,4 +82,22 @@ public class EventController {
         return ResponseEntity.ok(Map.of("message","Event Updated Successfully "));
 
     }
+
+
+
+    @PostMapping("/events/{eventId}/invitees")
+    public ResponseEntity<Integer> createInvitees(@Valid @RequestBody CreateInviteeRequest createInviteeRequest ,
+                                                               @PathVariable String eventId) {
+        int inviteeId = eventService.createInvitee(createInviteeRequest,eventId);
+
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "/events/" + eventId + "/invitees/" + inviteeId);
+
+        return new ResponseEntity<>(inviteeId, headers, HttpStatus.CREATED);
+
+    }
+
+
+
 }
