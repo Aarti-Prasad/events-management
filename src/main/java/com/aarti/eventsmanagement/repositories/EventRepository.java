@@ -3,6 +3,7 @@ package com.aarti.eventsmanagement.repositories;
 import com.aarti.eventsmanagement.dtos.EventDayDTO;
 import com.aarti.eventsmanagement.dtos.OrganizerDTO;
 import com.aarti.eventsmanagement.dtos.requests.CreateEventRequest;
+import com.aarti.eventsmanagement.dtos.requests.CreateInviteeBulkRequest;
 import com.aarti.eventsmanagement.dtos.requests.CreateInviteeRequest;
 import com.aarti.eventsmanagement.dtos.response.EventDetailsResponse;
 import com.aarti.eventsmanagement.dtos.response.EventSummaryDTO;
@@ -231,10 +232,10 @@ log.info(sql);
         KeyHolder keyHolder=new GeneratedKeyHolder();
         jdbcTemplate.update(connection ->{
             PreparedStatement ps=connection.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
-            ps.setString(1,eventId);
+/*            ps.setString(1,eventId);
             ps.setString(2,createInviteeRequest.getInviteeName());
             ps.setString(3, createInviteeRequest.getInviteeEmail());
-            ps.setString(4, createInviteeRequest.getContactNum());
+            ps.setString(4, createInviteeRequest.getContactNum());*/
 ps.setString(5,"Admin");
 
             return ps;
@@ -250,4 +251,11 @@ ps.setString(5,"Admin");
         }
         return n.intValue();
     }
-}
+
+    public int[] addInviteeBulk(List<CreateInviteeBulkRequest> createInviteeBulRequest, String eventId) {
+
+
+        return new int[0];
+    }
+
+    }

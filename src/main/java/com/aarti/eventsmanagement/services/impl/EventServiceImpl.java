@@ -2,6 +2,7 @@ package com.aarti.eventsmanagement.services.impl;
 
 import com.aarti.eventsmanagement.dtos.PaginationDTO;
 import com.aarti.eventsmanagement.dtos.requests.CreateEventRequest;
+import com.aarti.eventsmanagement.dtos.requests.CreateInviteeBulkRequest;
 import com.aarti.eventsmanagement.dtos.requests.CreateInviteeRequest;
 import com.aarti.eventsmanagement.dtos.response.*;
 import com.aarti.eventsmanagement.repositories.EventRepository;
@@ -90,6 +91,11 @@ public class EventServiceImpl implements EventService {
         //CreateInviteeResponse createInviteeResponse=
 return(eventInviteeId);
 
+    }
+
+    @Override
+    public int[] addinviteeBulk(List<CreateInviteeBulkRequest> createInviteeBulRequest, String eventId) {
+        return repository.addInviteeBulk(createInviteeBulRequest,eventId);
     }
 
 

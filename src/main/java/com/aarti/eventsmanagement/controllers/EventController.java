@@ -1,6 +1,7 @@
 package com.aarti.eventsmanagement.controllers;
 
 import com.aarti.eventsmanagement.dtos.requests.CreateEventRequest;
+import com.aarti.eventsmanagement.dtos.requests.CreateInviteeBulkRequest;
 import com.aarti.eventsmanagement.dtos.requests.CreateInviteeRequest;
 import com.aarti.eventsmanagement.dtos.response.CreateEventResponse;
 import com.aarti.eventsmanagement.dtos.response.CreateInviteeResponse;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 // Validation
@@ -97,6 +99,18 @@ public class EventController {
         return new ResponseEntity<>(inviteeId, headers, HttpStatus.CREATED);
 
     }
+
+
+
+
+//    @PostMapping("/events/{eventId}/invitees/bulk")
+//    public ResponseEntity<int[]> addInviteeList(@Valid @RequestBody CreateInviteeBulkRequest createInviteeBulRequest ,
+//                                                  @PathVariable String eventId) {
+//        int [] res = eventService.addinviteeBulk(createInviteeBulRequest,eventId);
+//
+//        return new ResponseEntity<>(res, HttpStatus.CREATED);
+//
+//    }
 
 
 
